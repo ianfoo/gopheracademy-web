@@ -5,12 +5,21 @@ series = ["Advent 2019"]
 author = ["Ian Molee"]
 +++
 
+Everyone knows about the Go standard library, but do you know about `golang.org/x`?
+It wouldn't be surprising if you didn't. There's not a ton of readily-available
+information about it. That's not all that surprising, because `golang.org/x` isn't
+something that can be documented easily, because it's not really anything other
+than the beginning of an import path shared by a number of diverse Go packages,
+
 Everyone knows the Go standard library. It's readily presented, well documented,
 and full of functionality. But what do you know about what lives in the shadowy
 realm of golang.org/x?
 
 This post will introduce the reader to `golang.org/x` and show a few examples
 of useful packages that can be found there.
+
+Full list
+https://godoc.org/-/subrepo
 
 ## What is golang.org/x?
 
@@ -45,7 +54,15 @@ Sync contains functionality useful for concurrent code.
 
 #### errgroup
 
+Run a group of goroutines and watch for errors, canceling the coordinating
+context if an error occurs. Sort of an error-aware sync.WaitGroup, because
+it collects errors from the goroutines and cancels execution of all goroutines
+if an error occurs.
+
 #### semaphore
+
+You can make a semaphore with a buffered channel, but this implementation is
+more robust.
 
 ### x/time
 
@@ -55,7 +72,13 @@ you know in advance.
 
 E.g., 100 requests every 10 seconds.
 
-Set up rate limiter for requests per second, and burst rate
+Set up rate limiter for requests per second, and burst rate. Can use `Wait` to just
+wait until it's send to request, `Allow` to determine instantaneously whether a
+request can be sent, or `Reserve` to reserve capacity for n units of work at a
+given time, and the result will indicate how long the caller must wait before it
+sending requests in order to remain within the rate limit.
+
+https://play.golang.org/p/RpnGNYdE-MU
 
 ### x/numbers
 
@@ -69,15 +92,31 @@ Print numbers for locales/languages.
 
 ### x/oauth2
 
+Lots of providers supported in sub packages:
+Amazon, Google, Facebook, Twitch, Fitbit, GitHub, Gitlab, Bitbucket...
+JWS, JWT
+
 ### x/sys
 
 Platform-specific stuff
 ??? Does this have stdlib equivalents?
 ???
 
+### x/image/font
+
+### x/xerrors
+
+Partially added to Go 1.13. Can use this package to get equivalent errors 
+functionality in older versions of Go. Specifically, the `Is`, `As`, and `Unwrap`
+functions, and `Errorf` which is like `fmt.Errorf` in Go 1.13+.
+
 ### x/term
 
 Determine if a program is running in a terminal.
+
+### x/lint/golint
+
+The Go linter! Not sure why this isn't included in the main installation.
 
 ### x/tools
 
@@ -92,6 +131,11 @@ instance, in a structural manner instead of just a textual manner.
 
 --- fmt.Print/Printf example
 --- changing call types example
+
+#### x/text/cmd/gotext
+
+Use to extract text from Go source code and replace instances of fmt with message
+printers--for localization!
 
 ## Conclusion
 
