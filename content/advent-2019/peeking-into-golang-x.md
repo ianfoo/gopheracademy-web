@@ -78,7 +78,7 @@ request can be sent, or `Reserve` to reserve capacity for n units of work at a
 given time, and the result will indicate how long the caller must wait before it
 sending requests in order to remain within the rate limit.
 
-https://play.golang.org/p/RpnGNYdE-MU
+https://play.golang.org/p/oZXljOJMVKX
 
 ### x/numbers
 
